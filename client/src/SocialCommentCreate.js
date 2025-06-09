@@ -1,21 +1,30 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { Smile } from 'lucide-react';
 
-export default function CommentCreate({ onAddComment }) {
+export default function CommentCreate({ postId, onAddComment }) {
   const [comment, setComment] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!comment.trim()) return;
 
-    onAddComment({
+    const newComment = {
       id: Date.now(),
       content: comment,
       author: 'You',
       timestamp: new Date().toISOString()
-    });
+    };
 
-    setComment('');
+    try {
+      await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
+        content: comment
+      });
+      onAddComment(newComment);
+      setComment('');
+    } catch (err) {
+      console.error('❌ Could not create comment:', err.message);
+    }
   };
 
   return (

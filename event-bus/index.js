@@ -7,6 +7,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+const events = [];
+
 const services = [
   'http://localhost:4000/events',
   'http://localhost:4001/events',
@@ -15,6 +17,7 @@ const services = [
 
 app.post('/events', async (req, res) => {
   const event = req.body;
+  events.push(event); 
 
   for (let service of services) {
     try {
@@ -25,6 +28,10 @@ app.post('/events', async (req, res) => {
   }
 
   res.status(200).send({ status: 'OK' });
+});
+
+app.get('/events', (req, res) => {
+  res.send(events);
 });
 
 app.listen(4005, () => {

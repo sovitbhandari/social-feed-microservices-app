@@ -27,6 +27,18 @@ app.post('/posts', async (req, res) =>{
     res.status(201).send(posts[id]);
 });
 
+app.delete('/posts/:id', async (req, res) => {
+  const { id } = req.params;
+  if (posts[id]) delete posts[id];
+
+  await axios.post('http://localhost:4005/events', {
+    type: 'PostDeleted',
+    data: { id }
+  });
+  res.status(204).send();
+});
+
+
 app.post('/events', (req, res) => {
     console.log("Received Event", req.body.type)
     res.send({});

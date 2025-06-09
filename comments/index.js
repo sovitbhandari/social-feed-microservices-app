@@ -14,7 +14,7 @@ app.get('/posts/:id/comments', (req, res) => {
     res.send(commentsByPostId[req.params.id] || [])
 });
 
-app.post('/posts/:id/comments', (req, res) => {
+app.post('/posts/:id/comments', async(req, res) => {
     const commentId = randomBytes(4).toString('hex')
     const {content} = req.body;
 
@@ -25,14 +25,24 @@ app.post('/posts/:id/comments', (req, res) => {
     commentsByPostId[req.params.id] = comments;
     res.status(201).send(comments);
 
-    axios.post('http://localhost:4005/events', {
+    await axios.post('http://localhost:4005/events', {
         type: 'CommentCreated',
-        data: {
-            id: commentId, content, 
-            postId : req.params.id
-        }
+        data: {id: commentId, content, postId : req.params.id}
     })
 });
+
+app.delete('/posts/:postId/comments/:id', async (req, res) => {
+  const { postId, id } = req.params;
+  commentsByPostId[postId] =
+    (commentsByPostId[postId] || []).filter(c => c.id !== id);
+
+  await axios.post('http://localhost:4005/events', {
+    type: 'CommentDeleted',
+    data: { id, postId }
+  });
+  res.status(204).send();
+});
+
 
 app.post('/events', (req, res) => {
     console.log("Received Event", req.body.type)
