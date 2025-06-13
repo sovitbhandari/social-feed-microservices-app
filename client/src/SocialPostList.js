@@ -53,9 +53,6 @@ export default function SocialPostList({ posts, setPosts }) {
   /* ─── Add / delete comments ─── */
   const handleAddComment = async (postId, commentObj) => {
     try {
-      await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
-        content: commentObj.content
-      });
       setPostComments((prev) => ({
         ...prev,
         [postId]: [...(prev[postId] || []), commentObj]

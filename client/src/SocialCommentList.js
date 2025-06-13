@@ -29,13 +29,22 @@ export default function CommentList({ comments, onDeleteComment }) {
 
           <div className="flex items-center justify-between mb-1 pr-6">
             <span className="text-sm font-semibold text-gray-700">
-              {comment.author}
+              {"You"}
             </span>
             <span className="text-xs text-gray-400">
               {formatTimestamp(comment.timestamp)}
             </span>
           </div>
-          <p className="text-sm text-gray-800">{comment.content}</p>
+
+          <p className="text-sm text-gray-800">
+            {comment.status === 'approved'
+              ? comment.content
+              : (comment.status ?? 'pending') === 'pending'
+                ? '⏳ This comment is getting verified'
+                : '❌ This comment has been rejected'}
+          </p>
+
+
         </li>
       ))}
     </ul>

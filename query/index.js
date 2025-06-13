@@ -22,17 +22,31 @@ app.post('/events', (req, res) => {
         posts[id] = {id, title, comments: []}
     }
 
-    if (type === 'CommentCreated'){
-        const {id, content, postId} = data
-
-        const post = posts[postId]
+    if (type === 'CommentCreated') {
+        const { id, content, postId, status} = data;
+        const post = posts[postId];
 
         if (!post) {
             console.warn(`⚠️ Comment for non-existing postId: ${postId}`);
             return res.send({});
         }
 
-        post.comments.push({id, content});
+        const alreadyExists = post.comments.some(c => c.id === id);
+        if (!alreadyExists) {
+            post.comments.push({ id, content, status});
+        }
+    }
+    
+
+    if (type === 'CommentUpdated'){
+        const {id, status, postId, content} = data
+        const post = posts[postId]
+
+        const comment = post.comments.find(comment =>{
+            return comment.id === id;
+        });
+        comment.status = status
+        comment.content = content
     }
 
     if (type === 'PostDeleted') {
@@ -67,12 +81,31 @@ app.listen(4002, async () => {
                 posts[id] = { id, title, comments: [] };
             }
 
+
             if (type === 'CommentCreated') {
-                const { id, content, postId } = data;
+                const { id, content, postId, status} = data;
                 const post = posts[postId];
-                if (post) {
-                    post.comments.push({ id, content });
+
+                if (!post) {
+                    console.warn(`⚠️ Comment for non-existing postId: ${postId}`);
+                    return res.send({});
                 }
+
+                const alreadyExists = post.comments.some(c => c.id === id);
+                if (!alreadyExists) {
+                    post.comments.push({ id, content, status});
+                }
+            }
+
+            if (type === 'CommentUpdated'){
+                const {id, status, postId, content} = data
+                const post = posts[postId]
+
+                const comment = post.comments.find(comment =>{
+                    return comment.id === id;
+                });
+                comment.status = status
+                comment.content = content
             }
             
             if (type === 'PostDeleted') {

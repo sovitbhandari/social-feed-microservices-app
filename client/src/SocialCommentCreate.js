@@ -13,6 +13,7 @@ export default function CommentCreate({ postId, onAddComment }) {
       id: Date.now(),
       content: comment,
       author: 'You',
+      status: 'pending',
       timestamp: new Date().toISOString()
     };
 

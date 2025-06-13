@@ -13,10 +13,9 @@ export default function SocialFeed() {
         const res = await axios.get('http://localhost:4002/posts');
         // Query service returns an object keyed by id → convert to array
         const fetched = Object.values(res.data).map((p) => ({
-          /* map minimal backend shape → UI shape */
           id: p.id,
           content: p.title,
-          author: 'Anon',                       // placeholder
+          author: 'You',                       // placeholder
           timestamp: new Date().toISOString(),  // no timestamp on backend
           mood: null,
           visibility: 'public',
@@ -26,7 +25,8 @@ export default function SocialFeed() {
           comments: p.comments?.map((c) => ({
             id: c.id,
             content: c.content,
-            author: 'Anon',
+            status: c.status,
+            author: 'You',
             timestamp: new Date().toISOString()
           })) || []
         }));
