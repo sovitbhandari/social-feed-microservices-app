@@ -20,7 +20,7 @@ app.post('/posts', async (req, res) =>{
 
     posts[id] = { id, title };
 
-    await axios.post('http://localhost:4005/events', {
+    await axios.post('http://event-bus-srv:4005/events', {
         type: 'PostCreated',
         data:{ id, title }
     });
@@ -31,7 +31,7 @@ app.delete('/posts/:id', async (req, res) => {
   const { id } = req.params;
   if (posts[id]) delete posts[id];
 
-  await axios.post('http://localhost:4005/events', {
+  await axios.post('http://event-bus-srv:4005/events', {
     type: 'PostDeleted',
     data: { id }
   });
