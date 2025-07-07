@@ -7,7 +7,7 @@ build:
   local:
     push: false
   artifacts:
-    - image: sovitb/client:latest
+    - image: sovitb/client
       context: client
       docker:
         dockerfile: Dockerfile
@@ -15,7 +15,7 @@ build:
         manual:
           - src: "src/**/*.js"
             dest: .
-    - image: sovitb/blog-comments:latest
+    - image: sovitb/blog-comments
       context: comments
       docker:
         dockerfile: Dockerfile
@@ -23,7 +23,7 @@ build:
         manual:
           - src: "*.js"
             dest: .
-    - image: sovitb/event-bus:latest
+    - image: sovitb/event-bus
       context: event-bus
       docker:
         dockerfile: Dockerfile
@@ -31,7 +31,7 @@ build:
         manual:
           - src: "*.js"
             dest: .
-    - image: sovitb/blog-moderation:latest
+    - image: sovitb/blog-moderation
       context: moderation
       docker:
         dockerfile: Dockerfile
@@ -39,7 +39,7 @@ build:
         manual:
           - src: "*.js"
             dest: .
-    - image: sovitb/blog-posts:latest
+    - image: sovitb/blog-posts
       context: posts
       docker:
         dockerfile: Dockerfile
@@ -47,7 +47,7 @@ build:
         manual:
           - src: "*.js"
             dest: .
-    - image: sovitb/blog-query:latest
+    - image: sovitb/blog-query
       context: query
       docker:
         dockerfile: Dockerfile
