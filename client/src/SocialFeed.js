@@ -10,7 +10,7 @@ export default function SocialFeed() {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const res = await axios.get('http://localhost:4002/posts');
+        const res = await axios.get('http://posts.com/posts');
         // Query service returns an object keyed by id → convert to array
         const fetched = Object.values(res.data).map((p) => ({
           id: p.id,
