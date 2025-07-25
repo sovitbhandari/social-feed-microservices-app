@@ -41,7 +41,7 @@ export default function SocialPostList({ posts, setPosts }) {
   /* ─── Delete a post ─── */
   const handleDeletePost = async (postId) => {
     try {
-      await axios.delete(`http://localhost:4000/posts/${postId}`);
+      await axios.delete(`http://posts.com/posts/${postId}`);
       // remove post + its local comments
       setPosts((prev) => prev.filter((p) => p.id !== postId));
       setPostComments(({ [postId]: _, ...rest }) => rest);
@@ -65,7 +65,7 @@ export default function SocialPostList({ posts, setPosts }) {
   const handleDeleteComment = async (postId, commentId) => {
     try {
       await axios.delete(
-        `http://localhost:4001/posts/${postId}/comments/${commentId}`
+        `http://posts.com/posts/${postId}/comments/${commentId}`
       );
       setPostComments((prev) => ({
         ...prev,
