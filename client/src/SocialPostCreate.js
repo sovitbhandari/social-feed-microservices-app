@@ -54,7 +54,7 @@ export default function SocialPostCreate({ onPost }) {
 
     try {
       // Send only what the Posts microservice needs
-      const res = await axios.post('http://localhost:4000/posts', {
+      const res = await axios.post('http://posts.com/posts/create', {
         title: currentPost.content
       });
 
